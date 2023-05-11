@@ -1,18 +1,20 @@
 const express = require('express');
 const userRoute = express.Router();
 const userController = require('./user.controller')
+const jwtApp = require('jsonwebtoken');
+const authMiddleware = require('../middleware/authMiddleware');
 
-userRoute.get("/login", userController.dataUser);
+userRoute.get("/login", authMiddleware, userController.dataUser);
 
 userRoute.post("/register", userController.userRegister);
 
 userRoute.post("/login", userController.userLogin);
 
-userRoute.get("/detail/:idUser", userController.userDetail);
+userRoute.get("/detail/:idUser", authMiddleware, userController.userDetail);
 
-userRoute.put("/detail/:idUpdate", userController.userUpdate);
+userRoute.put("/detail/:idUpdate", authMiddleware ,userController.userUpdate);
 
-userRoute.put("/:idUser", userController.recordGame);
+userRoute.put("/:idUser", authMiddleware, userController.recordGame);
 
-userRoute.get('/detail/history/:idUser', userController.singleGameHistory)
+userRoute.get('/detail/history/:idUser', authMiddleware, userController.singleGameHistory)
 module.exports = userRoute;

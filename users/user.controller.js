@@ -1,6 +1,6 @@
 const { isUserAvail } = require('./user.model');
 const userModel = require('./user.model')
-
+const jwtApp = require('jsonwebtoken')
 class userController {    
 
   dataUser = async (req, res) => {
@@ -44,8 +44,16 @@ console.log(hasilData)
         const {userOrEmail, password} = req.body;
         const hasilLogin = await userModel.checkUserLogin(userOrEmail, password);
       console.log(`datalogin ${hasilLogin}`)
+      //kalau user valid
       if (hasilLogin) {
-        return res.json(hasilLogin)
+        //generate JWT
+        const token = jwtApp.sign(
+          {...hasilLogin, role: 'player'}, 
+          "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C",
+          {expiresIn: '1d'}
+          )
+        console.log(token)
+        return res.json({accessToken : token})
       } else {return res.json({message: 'Credential tidak ditemukan'})}
     }
 
@@ -68,15 +76,27 @@ console.log(hasilData)
     
     //Update user profile
     userUpdate = async (req, res) => {
+      // cek apakah ada 
+     
+
+      
       const { idUpdate } = req.params;
       const {fullName, address, phoneNumber} = req.body;
       const user = await userModel.getSingleUser(idUpdate)
       try {
         if (!user) {
           res.statusCode = 400
-          return res.json({message: "User tidak ditemukan"})
+          return res.json({message: "User not found"})
         }
-        console.log(user)  
+
+        console.log(user.id)
+        console.log(req.user.id)
+
+        if (user.id !== req.user.id) {
+          res.statusCode = 403; // Forbidden
+          return res.json({ message: "Not authorized to update this user" });
+        }
+        
         const users = await userModel.updateSingleUser(fullName, address,phoneNumber, idUpdate);
         return res.json(users)
         } 

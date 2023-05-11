@@ -75,8 +75,10 @@ class userModel {
         const dataUser = await db.User.findOne({
           where: {
             [Op.or]: [{ username: userOrEmail }, { email: userOrEmail }],
-            password: md5(password)
-          }
+            password: md5(password), 
+            },
+            attributes: {exclude: ['password']},
+            raw: true
         });
         return dataUser;
       }
