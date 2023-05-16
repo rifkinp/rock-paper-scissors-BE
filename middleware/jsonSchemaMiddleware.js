@@ -7,6 +7,13 @@ validationUserRegis = async (req, res, next) => {
     } else return res.send({errors: result.array()});
 };
 
+validationUserLogin = async (req, res, next) => {
+    const result = await validationResult(req);
+    if (result.isEmpty()) {
+        next();
+    } else return res.send({errors: result.array()});
+};
+
 // validationUserRegis = async (req, res, next) => {
 //     const errors = await validationResult(req);
 //     if (!errors.isEmpty())
@@ -14,4 +21,4 @@ validationUserRegis = async (req, res, next) => {
 //     next();
 // };
 
-module.exports = {validationUserRegis};
+module.exports = {validationUserRegis, validationUserLogin};

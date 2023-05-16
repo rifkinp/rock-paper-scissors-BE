@@ -9,8 +9,6 @@ const userRegistrationValidation = [
     body("password")
         .notEmpty()
         .withMessage("Please enter the password")
-        .isStrongPassword()
-        .withMessage("Password not strong enough")
         .isLength({min: 8, max: 15})
         .withMessage("Password Min 6 Max 15 characters"),
     body("username")
@@ -20,4 +18,17 @@ const userRegistrationValidation = [
         .withMessage("Must be character"),
 ];
 
-module.exports = {userRegistrationValidation};
+const userLoginValidation = [
+    body("userOrEmail")
+        .notEmpty()
+        .withMessage("Please enter the username")
+        .isString()
+        .withMessage("Must be character"),
+    body("password")
+        .notEmpty()
+        .withMessage("Please enter the password")
+        .isLength({min: 8, max: 15})
+        .withMessage("Password Min 6 Max 15 characters"),
+];
+
+module.exports = {userRegistrationValidation, userLoginValidation};

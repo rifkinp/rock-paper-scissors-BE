@@ -13,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
         // cek apakah token valid kalau tidak unathorized
         const token = await jwtApp.verify(authorization, 'H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C');
         req.user = token;
-        console.log(req.user);
+
         next();  
         } catch (error) {
           res.statusCode = 400
