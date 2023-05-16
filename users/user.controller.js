@@ -11,12 +11,10 @@ class userController {
     };
 
     userRegister = async (req, res) => {
-        const requestData = matchedData(req); // Cek email yang telah teregis
-        console.log(requestData);
-        const hasilData = await userModel.isUserAvail(requestData);
-        console.log(hasilData);
+        const requestData = matchedData(req); // data yang masuk
+        const hasilData = await userModel.isUserAvail(requestData); //cek data di database
         if (hasilData) {
-            return res.json({message: "User / Email sudah terdaftar"});
+            return res.send({message: "User / Email sudah terdaftar"});
         }
         //record data kedalam userList
         userModel.recordNewData(requestData);

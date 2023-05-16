@@ -13,7 +13,8 @@ userRoute.post(
     jsonSchemaMiddleware.validationUserRegis,
     userController.userRegister
 ),
-    userRoute.post("/login", userController.userLogin);
+
+userRoute.post("/login", userController.userLogin);
 
 userRoute.get("/detail/:idUser", authMiddleware, userController.userDetail);
 
