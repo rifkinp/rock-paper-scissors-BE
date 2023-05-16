@@ -15,12 +15,12 @@ class userController {
         console.log(requestData);
         const hasilData = await userModel.isUserAvail(requestData);
         console.log(hasilData);
-        // if (hasilData) {
-        //     return res.json({message: "User / Email sudah terdaftar"});
-        // }
-        // //record data kedalam userList
-        // userModel.recordNewData(requestData);
-        // return res.json({message: "registrasi berhasil"});
+        if (hasilData) {
+            return res.json({message: "User / Email sudah terdaftar"});
+        }
+        //record data kedalam userList
+        userModel.recordNewData(requestData);
+        return res.json({message: "registrasi berhasil"});
     };
 
     // Cek Login
