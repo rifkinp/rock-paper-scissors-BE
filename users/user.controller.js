@@ -11,20 +11,22 @@ class userController {
   userRegister = async (req, res) => {
     const requestData = req.body;
     // Cek pengisian user,email,pass
-    if (requestData.username === undefined || requestData.username === "") {
-      res.statusCode = 400;
-      return res.json({ message: "Username is invalid" });
-    }
+    // if (requestData.username === undefined || requestData.username === "") {
+    //   res.statusCode = 400;
+    //   return res.json({ message: "Username is invalid" });
+    // }
     
-    if (requestData.email === undefined || requestData.email === "") {
-      res.statusCode = 400;
-      return res.json({ message: "Email is invalid" });
-    }
+    // if (requestData.email === undefined || requestData.email === "") {
+    //   res.statusCode = 400;
+    //   return res.json({ message: "Email is invalid" });
+    // }
     
-    if (requestData.password === undefined || requestData.password === "") {
-      res.statusCode = 400;
-        return res.json({ message: "Password is invalid" });
-      }
+    // if (requestData.password === undefined || requestData.password === "") {
+    //   res.statusCode = 400;
+    //     return res.json({ message: "Password is invalid" });
+    //   }
+
+    
       
     // Cek email yang telah teregis
     const hasilData = await userModel.isUserAvail(requestData);
@@ -77,9 +79,6 @@ console.log(hasilData)
     //Update user profile
     userUpdate = async (req, res) => {
       // cek apakah ada 
-     
-
-      
       const { idUpdate } = req.params;
       const {fullName, address, phoneNumber} = req.body;
       const user = await userModel.getSingleUser(idUpdate)
@@ -89,13 +88,7 @@ console.log(hasilData)
           return res.json({message: "User not found"})
         }
 
-        console.log(user.id)
-        console.log(req.user.id)
 
-        if (user.id !== req.user.id) {
-          res.statusCode = 403; // Forbidden
-          return res.json({ message: "Not authorized to update this user" });
-        }
         
         const users = await userModel.updateSingleUser(fullName, address,phoneNumber, idUpdate);
         return res.json(users)

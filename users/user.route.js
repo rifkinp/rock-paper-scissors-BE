@@ -1,12 +1,20 @@
 const express = require('express');
 const userRoute = express.Router();
-const userController = require('./user.controller')
+const userController = require('./user.controller');
 const jwtApp = require('jsonwebtoken');
 const authMiddleware = require('../middleware/authMiddleware');
+const {checkSchema} = require('express-validator');
 
-userRoute.get("/login", authMiddleware, userController.dataUser);
+userRoute.get("/login", authMiddleware, 
+userController.dataUser);
 
-userRoute.post("/register", userController.userRegister);
+userRoute.post("/register", 
+checkSchema({
+    username: { isString: true },
+    email: { isEmail: true },
+    pasword: { isLength: { options: { min: 8 } } },
+  }),
+userController.userRegister);
 
 userRoute.post("/login", userController.userLogin);
 
