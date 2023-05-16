@@ -1,4 +1,4 @@
-const {matchedData, validationResult} = require("express-validator");
+const {validationResult} = require("express-validator");
 
 validationUserRegis = async (req, res, next) => {
     const result = await validationResult(req);

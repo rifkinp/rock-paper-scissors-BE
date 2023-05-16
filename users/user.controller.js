@@ -1,8 +1,6 @@
-const {isUserAvail} = require("./user.model");
 const userModel = require("./user.model");
 const jwtApp = require("jsonwebtoken");
-const {matchedData, validationResult} = require("express-validator");
-const {request} = require("express");
+const {matchedData} = require("express-validator");
 
 class userController {
     dataUser = async (req, res) => {
