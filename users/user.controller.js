@@ -62,10 +62,10 @@ class userController {
     //Update user profile
     userUpdate = async (req, res) => {
         // cek apakah ada
-        const {idUpdate} = req.params;
+        const {idUser} = req.params;
         const {fullName, address, phoneNumber} = req.body;
-        const user = await userModel.getSingleUser(idUpdate);
         try {
+            const user = await userModel.getSingleUser(idUser);
             if (!user) {
                 res.statusCode = 400;
                 return res.json({message: "User not found"});
@@ -75,7 +75,7 @@ class userController {
                 fullName,
                 address,
                 phoneNumber,
-                idUpdate
+                idUser
             );
             return res.json(users);
         } catch (error) {

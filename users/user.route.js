@@ -4,6 +4,7 @@ const userController = require("./user.controller");
 const authMiddleware = require("../middleware/authMiddleware");
 const userValidation = require("./user.validation");
 const jsonSchemaMiddleware = require("../middleware/jsonSchemaMiddleware");
+const authProtection = require("../middleware/authProtection");
 
 userRoute.get("/login", authMiddleware, userController.dataUser);
 
@@ -20,15 +21,31 @@ userRoute.post(
         userController.userLogin
     );
 
-userRoute.get("/detail/:idUser", authMiddleware, userController.userDetail);
+userRoute.get(
+    "/detail/:idUser",
+    authMiddleware,
+    authProtection.validationCheck,
+    userController.userDetail
+);
 
-userRoute.put("/detail/:idUpdate", authMiddleware, userController.userUpdate);
+userRoute.put(
+    "/detail/:idUser",
+    authMiddleware,
+    authProtection.validationCheck,
+    userController.userUpdate
+);
 
-userRoute.put("/:idUser", authMiddleware, userController.recordGame);
+userRoute.put(
+    "/history/:idUser",
+    authMiddleware,
+    authProtection.validationCheck,
+    userController.recordGame
+);
 
 userRoute.get(
     "/detail/history/:idUser",
     authMiddleware,
+    authProtection.validationCheck,
     userController.singleGameHistory
 );
 module.exports = userRoute;
