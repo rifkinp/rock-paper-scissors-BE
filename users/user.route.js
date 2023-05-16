@@ -11,13 +11,13 @@ userRoute.get("/login", authMiddleware, userController.dataUser);
 userRoute.post(
     "/register",
     userValidation.userRegistrationValidation,
-    jsonSchemaMiddleware.validationUserRegis,
+    jsonSchemaMiddleware.validationjsonSchema,
     userController.userRegister
 ),
     userRoute.post(
         "/login",
         userValidation.userLoginValidation,
-        jsonSchemaMiddleware.validationUserLogin,
+        jsonSchemaMiddleware.validationjsonSchema,
         userController.userLogin
     );
 
@@ -32,6 +32,8 @@ userRoute.put(
     "/detail/:idUser",
     authMiddleware,
     authProtection.validationCheck,
+    userValidation.updateBioValidation,
+    jsonSchemaMiddleware.validationjsonSchema,
     userController.userUpdate
 );
 
@@ -39,6 +41,8 @@ userRoute.put(
     "/history/:idUser",
     authMiddleware,
     authProtection.validationCheck,
+    userValidation.recordGameHistory,
+    jsonSchemaMiddleware.validationjsonSchema,
     userController.recordGame
 );
 

@@ -31,4 +31,28 @@ const userLoginValidation = [
         .withMessage("Password Min 6 Max 15 characters"),
 ];
 
-module.exports = {userRegistrationValidation, userLoginValidation};
+const updateBioValidation = [
+    body("phoneNumber").notEmpty().withMessage("Please enter the phone number"),
+    body("address")
+        .notEmpty()
+        .withMessage("Please enter the address")
+        .isString()
+        .withMessage("Must be character"),
+    body("fullName")
+        .notEmpty()
+        .withMessage("Please enter the fullname")
+        .isString()
+        .withMessage("Must be character"),
+];
+
+const recordGameHistory = [
+    body("resultGame").notEmpty().withMessage("Please enter the history"),
+    body("gameName").isString().withMessage("Must be character"),
+];
+
+module.exports = {
+    userRegistrationValidation,
+    userLoginValidation,
+    updateBioValidation,
+    recordGameHistory,
+};
