@@ -55,8 +55,15 @@ userRoute.get(
 
 // NEW API HERE
 // 1. API Create Room
-userRoute.post("/room", (req, res, next) => {
-    res.send({message: "Berhasil"});
-});
+userRoute.post(
+    "/room",
+    authMiddleware,
+    userValidation.recordGameRoom,
+    jsonSchemaMiddleware.validationjsonSchema,
+    userController.recordGameRoom
+);
+
+// 2. GET all room
+userRoute.get("/room", userController.getAllRooms);
 
 module.exports = userRoute;

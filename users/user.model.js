@@ -103,6 +103,30 @@ class userModel {
             include: [db.GameHistory],
         });
     };
+
+    // cek nameRoom
+    checkRoomName = async roomName => {
+        return await db.gameRooms.findOne({where: {roomName: roomName}});
+    };
+
+    // Record Room Game Name
+    createGameRoom = async (roomName, choicePlayer1, player1) => {
+        console.log(player1);
+        const gameRoom = await db.gameRooms.create({
+            roomName: roomName,
+            choicePlayer1: choicePlayer1,
+            idPlayer1: player1,
+        });
+        // console.log(gameRoom);
+    };
+
+    //MASIH ERROR
+    getRoomDetail = async () => {
+        const roomList = await db.gameRooms.findAll({
+            include: [db.User],
+        });
+        return roomList;
+    };
 }
 
 module.exports = new userModel();

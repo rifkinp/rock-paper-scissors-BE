@@ -16,7 +16,6 @@ const authMiddleware = async (req, res, next) => {
             "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C"
         );
         req.user = token;
-
         next();
     } catch (error) {
         res.statusCode = 400;
