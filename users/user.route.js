@@ -52,4 +52,11 @@ userRoute.get(
     authProtection.validationCheck,
     userController.singleGameHistory
 );
+
+// NEW API HERE
+// 1. API Create Room
+userRoute.post("/room", (req, res, next) => {
+    res.send({message: "Berhasil"});
+});
+
 module.exports = userRoute;

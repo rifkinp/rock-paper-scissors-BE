@@ -2,24 +2,43 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("GameHistories", {
+        await queryInterface.createTable("gameRooms", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            status: {
+            roomName: {
                 type: Sequelize.STRING,
             },
-            user_id: {
+            idPlayer1: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: "Users",
                     key: "id",
                 },
             },
-            game_name: {
+            choicePlayer1: {
+                type: Sequelize.STRING,
+            },
+            hasilPlayer1: {
+                type: Sequelize.STRING,
+            },
+            idPlayer2: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: "Users",
+                    key: "id",
+                },
+            },
+            choicePlayer2: {
+                type: Sequelize.STRING,
+            },
+            hasilPlayer2: {
+                type: Sequelize.STRING,
+            },
+            statusRoom: {
                 type: Sequelize.STRING,
             },
             createdAt: {
@@ -33,6 +52,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("GameHistories");
+        await queryInterface.dropTable("gameRooms");
     },
 };
