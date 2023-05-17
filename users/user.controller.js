@@ -146,7 +146,23 @@ class userController {
 
     getAllRooms = async (req, res) => {
         const getRoom = await userModel.getRoomDetail();
-        res.json(getRoom);
+        console.log(getRoom);
+        return res.json(getRoom);
+    };
+
+    getSingleRoom = async (req, res) => {
+        const {idRoom} = req.params;
+        console.log(idRoom);
+        try {
+            const singleRoom = await userModel.singleRoomDetail(idRoom);
+
+            if (!singleRoom) {
+                return res.send("Room tidak ditemukan");
+            }
+            return res.json(singleRoom);
+        } catch (error) {
+            return console.log(error);
+        }
     };
 }
 

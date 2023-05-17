@@ -117,7 +117,7 @@ class userModel {
             choicePlayer1: choicePlayer1,
             idPlayer1: player1,
         });
-        // console.log(gameRoom);
+        return gameRoom;
     };
 
     //MASIH ERROR
@@ -126,6 +126,14 @@ class userModel {
             include: [db.User],
         });
         return roomList;
+    };
+
+    // Get Single Room Detail
+    singleRoomDetail = async idRoom => {
+        const roomSingleList = await db.gameRooms.findOne({
+            where: {id: idRoom},
+        });
+        return roomSingleList;
     };
 }
 

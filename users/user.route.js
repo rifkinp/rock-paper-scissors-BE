@@ -63,7 +63,18 @@ userRoute.post(
     userController.recordGameRoom
 );
 
-// 2. GET all room
+// 2. GET all room *MASIH ERROR ??Ada dua cara, bisa ambil dari token dan masukkan langsung usernamenya
+// atau bikin relationship ke gameroom dan usernamenya
 userRoute.get("/room", userController.getAllRooms);
 
+// 3. API get single room detail
+userRoute.get("/room/:idRoom", userController.getSingleRoom);
 module.exports = userRoute;
+
+// 4. API PUT single room
+userRoute.put("/room/:idRoom", (req, res) => {
+    res.send("gas lah berhasil");
+});
+// 5. API get single History per user
+
+//
