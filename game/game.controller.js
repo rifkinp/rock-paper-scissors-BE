@@ -68,9 +68,14 @@ class gameController {
 
     //Get All Room Detail **STILL ERROR ???
     getAllRooms = async (req, res) => {
-        const getRoom = await gameModel.getRoomDetail();
-        console.log(getRoom);
-        return res.json(getRoom);
+        try {
+            const allRoom = await gameModel.getAllRoom();
+            console.log(allRoom);
+            return res.json(allRoom);
+        } catch (error) {
+            console.log(error);
+            return res.json({message: "ada error di controller"});
+        }
     };
 
     //GET Single Room Detail
@@ -95,19 +100,29 @@ class gameController {
         const {idRoom} = req.params;
         const {choicePlayer2} = req.body;
         const idPlayer2 = req.user.id;
+
         try {
+            //Get Room Detail
+            const singleRoom = await gameModel.singleRoomDetail(idRoom);
+
+            if (singleRoom.idPlayer1 === idPlayer2) {
+                return res.send("Terduplikat");
+            }
+
+            if (singleRoom.statusRoom === "Completed") {
+                return res.send("Room sudah selesai");
+            }
+
             //Input data player 2
             const updatePlayer2 = await gameModel.updatePlayer2Detail(
                 choicePlayer2,
                 idPlayer2,
                 idRoom
             );
-            //Get Room Detail
-            const singleRoom = await gameModel.singleRoomDetail(idRoom);
 
             //Bikin variabel untuk update ke Logic
             const x1 = singleRoom.choicePlayer1;
-            const y1 = singleRoom.choicePlayer2;
+            const y1 = choicePlayer2;
 
             //masukkan variabel ke Function Logic cari pemenang
             const result = await rpsValidation.whoIsWin(x1, y1);
@@ -135,9 +150,6 @@ class gameController {
     getSingleHistory = async (req, res) => {
         const id = req.user.id;
         const singleHistory = await gameModel.getRoomDetail(id);
-        console.log(id);
-        // return res.send("berhasil");
-
         return res.json(singleHistory);
     };
 }

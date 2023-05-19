@@ -1,6 +1,6 @@
 const md5 = require("md5");
 const db = require("../db/models");
-const {Op} = require("sequelize");
+const {Op, Sequelize} = require("sequelize");
 
 class gameModel {
     // cek single user
@@ -38,12 +38,13 @@ class gameModel {
             roomName: roomName,
             choicePlayer1: choicePlayer1,
             idPlayer1: player1,
+            statusRoom: "Available",
         });
         return gameRoom;
     };
 
     //cari semua room
-    getRoomDetail = async () => {
+    getAllRoom = async () => {
         const roomList = await db.gameRooms.findAll({
             include: [
                 {
@@ -123,29 +124,49 @@ class gameModel {
     };
 
     getRoomDetail = async id => {
-        console.log(id);
         const roomList = await db.gameRooms.findAll({
+            attributes: [
+                "roomName",
+                "updatedAt",
+                "idPlayer1",
+                "idPlayer2",
+                "hasilPlayer1",
+                "hasilPlayer2",
+            ],
             where: {
                 [Op.or]: [
-                    // {idPlayer1: id, statusRoom: "Completed"},
-                    // {idPlayer2: id, statusRoom: "Completed"},
-                    {idPlayer1: id},
-                    {idPlayer2: id},
+                    {
+                        idPlayer1: id,
+                        hasilPlayer1: {[Op.ne]: null},
+                    },
+                    {
+                        idPlayer2: id,
+                        hasilPlayer2: {[Op.ne]: null},
+                    },
                 ],
             },
-            include: [
-                {
-                    model: db.User,
-                    as: "player1",
-                },
-                {
-                    model: db.User,
-                    as: "player2",
-                },
-            ],
-            // attributes: { exclude :}
+            raw: true,
         });
-        return roomList;
+
+        return roomList
+            .map(room => {
+                if (room.idPlayer1 === id && room.hasilPlayer1) {
+                    return {
+                        idPlayer: room.idPlayer1,
+                        hasilPlayer: room.hasilPlayer1,
+                        roomName: room.roomName,
+                        updatedAt: room.updatedAt,
+                    };
+                } else if (room.idPlayer2 === id && room.hasilPlayer2) {
+                    return {
+                        idPlayer: room.idPlayer2,
+                        hasilPlayer: room.hasilPlayer2,
+                        roomName: room.roomName,
+                        updatedAt: room.updatedAt,
+                    };
+                }
+            })
+            .filter(Boolean);
     };
 }
 
