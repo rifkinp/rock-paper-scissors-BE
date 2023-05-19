@@ -85,56 +85,6 @@ class userModel {
         });
         return dataUser;
     };
-
-    //update single user
-    updateGameResult = async (resultGame, gameName, idUser) => {
-        const userGame = await db.GameHistory.create({
-            status: resultGame,
-            user_id: idUser,
-            game_name: gameName,
-        });
-        return userGame;
-    };
-
-    //Cek history single ID
-    dataGameHistory = async idUser => {
-        return await db.User.findOne({
-            where: {id: idUser},
-            include: [db.GameHistory],
-        });
-    };
-
-    // cek nameRoom
-    checkRoomName = async roomName => {
-        return await db.gameRooms.findOne({where: {roomName: roomName}});
-    };
-
-    // Record Room Game Name
-    createGameRoom = async (roomName, choicePlayer1, player1) => {
-        console.log(player1);
-        const gameRoom = await db.gameRooms.create({
-            roomName: roomName,
-            choicePlayer1: choicePlayer1,
-            idPlayer1: player1,
-        });
-        return gameRoom;
-    };
-
-    //MASIH ERROR
-    getRoomDetail = async () => {
-        const roomList = await db.gameRooms.findAll({
-            include: [db.User],
-        });
-        return roomList;
-    };
-
-    // Get Single Room Detail
-    singleRoomDetail = async idRoom => {
-        const roomSingleList = await db.gameRooms.findOne({
-            where: {id: idRoom},
-        });
-        return roomSingleList;
-    };
 }
 
 module.exports = new userModel();

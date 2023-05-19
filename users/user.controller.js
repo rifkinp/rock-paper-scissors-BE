@@ -14,7 +14,7 @@ class userController {
         if (hasilData) {
             return res.send({message: "User / Email sudah terdaftar"});
         }
-        //record data kedalam userList
+        //record data kedalam userList  
         userModel.recordNewData(requestData);
         return res.json({message: "registrasi berhasil"});
     };
@@ -80,88 +80,6 @@ class userController {
             return res.json(users);
         } catch (error) {
             console.log(error);
-        }
-    };
-
-    //record game
-    recordGame = async (req, res) => {
-        const {idUser} = req.params;
-        const {resultGame, gameName} = req.body;
-        const user = await userModel.getSingleUser(idUser);
-        try {
-            if (!user) {
-                res.statusCode = 400;
-                return res.json({message: "User tidak ditemukan"});
-            }
-            const userGame = await userModel.updateGameResult(
-                resultGame,
-                gameName,
-                idUser
-            );
-            return res.json(userGame);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    singleGameHistory = async (req, res) => {
-        const {idUser} = req.params;
-        const user = await userModel.getSingleUser(idUser);
-        try {
-            if (!user) {
-                res.statusCode = 400;
-                return res.json({message: "User tidak ditemukan"});
-            }
-            const userGame = await userModel.dataGameHistory(idUser);
-            return res.json(userGame);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    recordGameRoom = async (req, res) => {
-        const {roomName, choicePlayer1} = req.body;
-        const player1 = req.user.id;
-        // console.log(player1);
-        try {
-            const roomNameCheck = await userModel.checkRoomName(roomName);
-
-            if (roomNameCheck) {
-                res.statusCode = 400;
-                return res.json({message: "Create other name room"});
-            }
-
-            const createRoom = await userModel.createGameRoom(
-                roomName,
-                choicePlayer1,
-                player1
-            );
-            // console.log(player1);
-            return res.send({message: "berhasil"});
-        } catch (error) {
-            console.log(error);
-            return res.json({message: "ada error"});
-        }
-    };
-
-    getAllRooms = async (req, res) => {
-        const getRoom = await userModel.getRoomDetail();
-        console.log(getRoom);
-        return res.json(getRoom);
-    };
-
-    getSingleRoom = async (req, res) => {
-        const {idRoom} = req.params;
-        console.log(idRoom);
-        try {
-            const singleRoom = await userModel.singleRoomDetail(idRoom);
-
-            if (!singleRoom) {
-                return res.send("Room tidak ditemukan");
-            }
-            return res.json(singleRoom);
-        } catch (error) {
-            return console.log(error);
         }
     };
 }

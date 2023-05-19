@@ -9,8 +9,14 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            gameRooms.belongsTo(models.User, {foreignKey: "idPlayer1"});
-            gameRooms.belongsTo(models.User, {foreignKey: "idPlayer2"});
+            gameRooms.belongsTo(models.User, {
+                foreignKey: "idPlayer1",
+                as: "player1",
+            });
+            gameRooms.belongsTo(models.User, {
+                foreignKey: "idPlayer2",
+                as: "player2",
+            });
         }
     }
     gameRooms.init(
