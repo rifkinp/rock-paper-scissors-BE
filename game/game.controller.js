@@ -1,6 +1,7 @@
 const gameModel = require("./game.model");
 const jwtApp = require("jsonwebtoken");
 const {matchedData} = require("express-validator");
+const rpsValidation = require("../Utils/rpsValidation");
 
 class gameController {
     //record game
@@ -94,20 +95,50 @@ class gameController {
         const {idRoom} = req.params;
         const {choicePlayer2} = req.body;
         const idPlayer2 = req.user.id;
-        console.log(idRoom);
-        console.log(choicePlayer2);
-        console.log(idPlayer2);
         try {
+            //Input data player 2
             const updatePlayer2 = await gameModel.updatePlayer2Detail(
                 choicePlayer2,
                 idPlayer2,
                 idRoom
             );
-            return res.json(updatePlayer2);
+            //Get Room Detail
+            const singleRoom = await gameModel.singleRoomDetail(idRoom);
+
+            //Bikin variabel untuk update ke Logic
+            const x1 = singleRoom.choicePlayer1;
+            const y1 = singleRoom.choicePlayer2;
+
+            //masukkan variabel ke Function Logic cari pemenang
+            const result = await rpsValidation.whoIsWin(x1, y1);
+            console.log(result);
+
+            //simpan result function ke variabel
+            const x1Result = result[0];
+            const y1Result = result[1];
+
+            //Input hasil ke database
+            const recordHistory = await gameModel.updateHistoryRoom(
+                x1Result,
+                y1Result,
+                idRoom
+            );
+            // console.log(recordHistory);
+
+            return res.json({message: "Record History Berhasil"});
         } catch (error) {
             console.log(error);
             return res.send("ada error");
         }
+    };
+
+    getSingleHistory = async (req, res) => {
+        const id = req.user.id;
+        const singleHistory = await gameModel.getRoomDetail(id);
+        console.log(id);
+        // return res.send("berhasil");
+
+        return res.json(singleHistory);
     };
 }
 

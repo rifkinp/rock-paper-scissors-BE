@@ -43,7 +43,7 @@ gameRoute.get("/room/:idRoom", gameController.getSingleRoom);
 gameRoute.put("/room/:idRoom", authMiddleware, gameController.updateSingleGame);
 
 // 5. API get single History per user
-
+gameRoute.get("/history/", authMiddleware, gameController.getSingleHistory);
 //
 
 module.exports = gameRoute;
