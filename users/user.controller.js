@@ -4,82 +4,107 @@ const {matchedData} = require("express-validator");
 
 class userController {
     dataUser = async (req, res) => {
-        const allUser = await userModel.getAllUser();
-        return res.json(allUser);
+        try {
+            const allUser = await userModel.getAllUser();
+            return res.json(allUser);
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({message: "Error retrieving user data"});
+        }
     };
 
     userRegister = async (req, res) => {
-        const requestData = matchedData(req); // data yang masuk
-        const hasilData = await userModel.isUserAvail(requestData); //cek data di database
-        if (hasilData) {
-            return res.send({message: "User / Email sudah terdaftar"});
+        try {
+            const requestData = matchedData(req); // data yang masuk
+            const hasilData = await userModel.isUserAvail(requestData); //cek data di database
+            if (hasilData) {
+                return res.send({message: "User / Email sudah terdaftar"});
+            }
+            //record data kedalam userList
+            userModel.recordNewData(requestData);
+            return res.json({message: "registrasi berhasil"});
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({message: "Error registering user"});
         }
-        //record data kedalam userList  
-        userModel.recordNewData(requestData);
-        return res.json({message: "registrasi berhasil"});
     };
 
     // Cek Login
     userLogin = async (req, res) => {
-        const {userOrEmail, password} = req.body;
-        const hasilLogin = await userModel.checkUserLogin(
-            userOrEmail,
-            password
-        );
-        console.log(`datalogin ${hasilLogin}`);
-        //kalau user valid
-        if (hasilLogin) {
-            //generate JWT
-            const token = jwtApp.sign(
-                {...hasilLogin, role: "player"},
-                "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C",
-                {expiresIn: "1d"}
+        try {
+            const {userOrEmail, password} = req.body;
+            const hasilLogin = await userModel.checkUserLogin(
+                userOrEmail,
+                password
             );
-            console.log(token);
-            return res.json({accessToken: token});
-        } else {
-            return res.json({message: "Credential tidak ditemukan"});
+
+            if (hasilLogin) {
+                //generate JWT
+                const token = jwtApp.sign(
+                    {...hasilLogin, role: "player"},
+                    "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C",
+                    {expiresIn: "1d"}
+                );
+                return res.json({accessToken: token});
+            } else {
+                return res.json({message: "Credential tidak ditemukan"});
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({message: "Error logging in user"});
         }
     };
 
     //Cek Detail
     userDetail = async (req, res) => {
-        const {idUser} = req.params;
         try {
+            const {idUser} = req.params;
             const users = await userModel.getProfileUser(idUser);
+
             if (users) {
                 return res.json(users);
             } else {
-                res.statusCode = 400;
-                return res.json({message: `User ${idUser} tidak ditemukan`});
+                return res
+                    .status(400)
+                    .json({message: `User ${idUser} tidak ditemukan`});
             }
         } catch (error) {
-            res.statusCode = 401;
-            return res.json({message: `User ${idUser} tidak ditemukan`});
+            console.log(error);
+            return res
+                .status(500)
+                .json({message: "Error retrieving user detail"});
         }
     };
 
     //Update user profile
     userUpdate = async (req, res) => {
-        // cek apakah ada
-        const {idUser} = req.params;
-        const {fullName, address, phoneNumber} = req.body;
         try {
+            const {idUser} = req.params;
+            const {fullName, address, phoneNumber} = req.body;
             const user = await userModel.getSingleUser(idUser);
             if (!user) {
-                res.statusCode = 400;
-                return res.json({message: "User not found"});
+                return res.status(400).json({message: "User not found"});
             }
 
-            const users = await userModel.updateSingleUser(
+            const updatedUser = await userModel.updateSingleUser(
                 fullName,
                 address,
                 phoneNumber,
                 idUser
             );
-            return res.json(users);
+
+            if (!updatedUser) {
+                return res.status(400).json({message: "Failed to update user"});
+            }
+
+            return res.json(updatedUser);
         } catch (error) {
             console.log(error);
+            return res
+                .status(500)
+                .json({message: "Error updating user profile"});
         }
     };
 }

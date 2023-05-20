@@ -2,46 +2,6 @@ const gameModel = require("./game.model");
 const {whoIsWin, getComputerChoice} = require("../Utils/rpsValidation");
 
 class gameController {
-    //record game
-    recordGame = async (req, res) => {
-        const {idUser} = req.params;
-        const {resultGame, gameName} = req.body;
-        try {
-            const user = await gameModel.getSingleUser(idUser);
-            if (!user) {
-                res.statusCode = 400;
-                return res.json({message: "User not found"});
-            }
-            const userGame = await gameModel.updateGameResult(
-                resultGame,
-                gameName,
-                idUser
-            );
-            return res.json(userGame);
-        } catch (error) {
-            console.log(error);
-            return res.statusCode(500).json({message: "Something Error"});
-        }
-    };
-
-    singleGameHistory = async (req, res) => {
-        const {idUser} = req.params;
-        try {
-            const user = await gameModel.getSingleUser(idUser);
-
-            if (!user) {
-                res.statusCode = 400;
-                return res.json({message: "User tidak ditemukan"});
-            }
-
-            const userGame = await gameModel.dataGameHistory(idUser);
-            return res.json(userGame);
-        } catch (error) {
-            console.log(error);
-            return res.statusCode(500).json({message: "Something Error"});
-        }
-    };
-
     //record new Game Room
     recordGameRoom = async (req, res) => {
         const {roomName, choicePlayer1} = req.body;
@@ -64,7 +24,7 @@ class gameController {
             return res.send({message: "Success Record Room"});
         } catch (error) {
             console.log(error);
-            return res.statusCode(500).json({message: "Something Error"});
+            return res.status(500).json({message: "Something Error"});
         }
     };
 
@@ -72,11 +32,10 @@ class gameController {
     getAllRooms = async (req, res) => {
         try {
             const allRoom = await gameModel.getAllRoom();
-            console.log(allRoom);
             return res.json(allRoom);
         } catch (error) {
             console.log(error);
-            return res.statusCode(500).json({message: "Something Error"});
+            return res.status(500).json({message: "Something Error"});
         }
     };
 
@@ -93,7 +52,7 @@ class gameController {
             }
             return res.json(singleRoom);
         } catch (error) {
-            return res.statusCode(500).json({message: "Something Error"});
+            return res.status(500).json({message: "Something Error"});
         }
     };
 
@@ -127,12 +86,7 @@ class gameController {
             const y1 = choicePlayer2;
 
             //masukkan variabel ke Function Logic cari pemenang
-            const result = await rpsValidation.whoIsWin(x1, y1);
-            console.log(result);
-
-            //simpan result function ke variabel
-            const x1Result = result[0];
-            const y1Result = result[1];
+            const [x1Result, y1Result] = whoIsWin(x1, y1);
 
             //Input hasil ke database
             const recordHistory = await gameModel.updateHistoryRoom(
@@ -145,7 +99,7 @@ class gameController {
             return res.json({message: "Record History Success"});
         } catch (error) {
             console.log(error);
-            return res.statusCode(500).json({message: "Something Error"});
+            return res.status(500).json({message: "Something Error"});
         }
     };
 
@@ -166,14 +120,14 @@ class gameController {
         const player1 = req.user.id;
 
         try {
-            const roomName = "VS COM"; // Set room name as 'VS COM'
-            const choicePlayer2 = getComputerChoice(); // Get computer's choice
+            const roomName = "VS COM";
+            const choicePlayer2 = getComputerChoice();
             const [hasilPlayer1, hasilPlayer2] = whoIsWin(
                 choicePlayer1,
                 choicePlayer2
-            ); // Calculate results
+            );
 
-            console.log([hasilPlayer1, hasilPlayer2]);
+            // console.log([hasilPlayer1, hasilPlayer2]);
 
             const createRoom = await gameModel.createGameRoomVsComputer(
                 roomName,

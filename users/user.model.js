@@ -7,52 +7,73 @@ class userModel {
     getAllUser = async () => {
         const userList = await db.User.findAll({
             include: [db.UserBio, db.GameHistory],
+            attributes: {exclude: ["password"]},
         });
-        console.log(userList);
         return userList;
     };
 
     // cek single user
     getSingleUser = async idUser => {
-        return await db.User.findOne({where: {id: idUser}});
+        try {
+            return await db.User.findOne({
+                where: {id: idUser},
+                attributes: {exclude: ["password"]},
+            });
+        } catch (error) {
+            throw new Error("Failed to get user information: " + error.message);
+        }
     };
 
     //Cek detail biodata
     getProfileUser = async idUser => {
-        return await db.User.findOne({
-            where: {id: idUser},
-            include: [db.UserBio],
-        });
+        try {
+            return await db.User.findOne({
+                where: {id: idUser},
+                include: [db.UserBio],
+                attributes: {exclude: ["password"]},
+            });
+        } catch (error) {
+            throw new Error("Failed to get user profile: " + error.message);
+        }
     };
 
     //update single user
-    updateSingleUser = async (fullName, address, phoneNumber, idUpdate) => {
-        console.log(idUpdate);
-        const [UserBio, created] = await db.UserBio.upsert({
-            id: idUpdate,
-            fullName: fullName,
-            phoneNumber: phoneNumber,
-            address: address,
-            user_id: idUpdate,
-        });
-        return UserBio;
+    updateSingleUser = async (fullName, address, phoneNumber, idUser) => {
+        try {
+            const idUpdate = parseInt(idUser);
+            console.log(idUpdate);
+            const [UserBio, created] = await db.UserBio.upsert(
+                {
+                    id: idUpdate,
+                    fullName: fullName,
+                    phoneNumber: phoneNumber,
+                    address: address,
+                    user_id: idUpdate,
+                },
+                {returning: true}
+            );
+            return UserBio;
+        } catch (error) {
+            throw new Error("Failed to update user: " + error.message);
+        }
     };
-
     // cek user sudah terdaftar atau tidak
     isUserAvail = async queryUser => {
-        const availUser = await db.User.findOne({
-            where: {
-                [Op.or]: [
-                    {username: queryUser.username},
-                    {email: queryUser.email},
-                ],
-            },
-        });
+        try {
+            const availUser = await db.User.findOne({
+                where: {
+                    [Op.or]: [
+                        {username: queryUser.username},
+                        {email: queryUser.email},
+                    ],
+                },
+            });
 
-        if (availUser) {
-            return true;
-        } else {
-            return false;
+            return availUser ? true : false;
+        } catch (error) {
+            throw new Error(
+                "Failed to check user availability: " + error.message
+            );
         }
     };
 
@@ -63,27 +84,23 @@ class userModel {
             email: queryUser.email,
             password: md5(queryUser.password),
         });
-        console.log(db.User.create);
     };
 
     // Cek Login
-    // checkUserLogin = async (username, email, password) => {
-    //     const dataUser = await db.User.findOne({
-    //         where : {email: email, password: md5(password)},
-    //     });
-    // return dataUser;
-    // }
-
     checkUserLogin = async (userOrEmail, password) => {
-        const dataUser = await db.User.findOne({
-            where: {
-                [Op.or]: [{username: userOrEmail}, {email: userOrEmail}],
-                password: md5(password),
-            },
-            attributes: {exclude: ["password"]},
-            raw: true,
-        });
-        return dataUser;
+        try {
+            const dataUser = await db.User.findOne({
+                where: {
+                    [Op.or]: [{username: userOrEmail}, {email: userOrEmail}],
+                    password: md5(password),
+                },
+                attributes: {exclude: ["password"]},
+                raw: true,
+            });
+            return dataUser;
+        } catch (error) {
+            throw new Error("Failed to check user login: " + error.message);
+        }
     };
 }
 

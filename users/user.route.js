@@ -6,14 +6,17 @@ const userValidation = require("../Utils/user.validation");
 const jsonSchemaMiddleware = require("../middleware/jsonSchemaMiddleware");
 const authProtection = require("../middleware/authProtection");
 
+//API Untuk get all User HARUSNYA SUPER ADMIN NEH
 userRoute.get("/login", authMiddleware, userController.dataUser);
 
+//API untuk register
 userRoute.post(
     "/register",
     userValidation.userRegistrationValidation,
     jsonSchemaMiddleware.validationjsonSchema,
     userController.userRegister
 ),
+    //Api untuk Login
     userRoute.post(
         "/login",
         userValidation.userLoginValidation,
@@ -21,6 +24,7 @@ userRoute.post(
         userController.userLogin
     );
 
+//API untuk get single ID + Bio
 userRoute.get(
     "/detail/:idUser",
     authMiddleware,
@@ -28,6 +32,7 @@ userRoute.get(
     userController.userDetail
 );
 
+//API untuk update update biodata
 userRoute.put(
     "/detail/:idUser",
     authMiddleware,

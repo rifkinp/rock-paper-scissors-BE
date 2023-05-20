@@ -2,43 +2,6 @@ const md5 = require("md5");
 const db = require("../db/models");
 const {Op, Sequelize} = require("sequelize");
 class gameModel {
-    // cek single user
-    getSingleUser = async idUser => {
-        try {
-            return await db.User.findOne({where: {id: idUser}});
-        } catch (error) {
-            throw new Error(
-                "Failed to get user information : " + error.message
-            );
-        }
-    };
-
-    //update single user
-    updateGameResult = async (resultGame, gameName, idUser) => {
-        try {
-            const userGame = await db.GameHistory.create({
-                status: resultGame,
-                user_id: idUser,
-                game_name: gameName,
-            });
-            return userGame;
-        } catch (error) {
-            throw new Error("Failed update game Result : " + error.message);
-        }
-    };
-
-    //Cek history single ID
-    dataGameHistory = async idUser => {
-        try {
-            return await db.User.findOne({
-                where: {id: idUser},
-                include: [db.GameHistory],
-            });
-        } catch (error) {
-            throw new Error("Failed to get history game : " + error.message);
-        }
-    };
-
     // cek nameRoom
     checkRoomName = async roomName => {
         try {
@@ -71,10 +34,12 @@ class gameModel {
                     {
                         model: db.User,
                         as: "player1",
+                        attributes: ["id", "username"],
                     },
                     {
                         model: db.User,
                         as: "player2",
+                        attributes: ["id", "username"],
                     },
                 ],
             });
@@ -93,12 +58,15 @@ class gameModel {
                     {
                         model: db.User,
                         as: "player1",
+                        attributes: ["id", "username"],
                     },
                     {
                         model: db.User,
                         as: "player2",
+                        attributes: ["id", "username"],
                     },
                 ],
+
                 raw: true,
             });
             return roomSingleList;

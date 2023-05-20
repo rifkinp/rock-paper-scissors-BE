@@ -1,33 +1,17 @@
 const express = require("express");
 const gameRoute = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const userValidation = require("../Utils/user.validation");
+const gameValidation = require("../Utils/game.validation");
 const jsonSchemaMiddleware = require("../middleware/jsonSchemaMiddleware");
 const authProtection = require("../middleware/authProtection");
 const gameController = require("./game.controller");
-
-gameRoute.put(
-    "/history/:idUser",
-    authMiddleware,
-    authProtection.validationCheck,
-    userValidation.recordGameHistory,
-    jsonSchemaMiddleware.validationjsonSchema,
-    gameController.recordGame
-);
-
-gameRoute.get(
-    "/detail/history/:idUser",
-    authMiddleware,
-    authProtection.validationCheck,
-    gameController.singleGameHistory
-);
 
 // NEW API HERE
 // 1. API Create Room
 gameRoute.post(
     "/room",
     authMiddleware,
-    userValidation.recordGameRoom,
+    gameValidation.recordGameRoom,
     jsonSchemaMiddleware.validationjsonSchema,
     gameController.recordGameRoom
 );
@@ -49,7 +33,7 @@ gameRoute.get("/history/", authMiddleware, gameController.getSingleHistory);
 gameRoute.post(
     "/room-vs-computer",
     authMiddleware,
-    userValidation.recordGameRoom,
+    gameValidation.recordGameRoom,
     jsonSchemaMiddleware.validationjsonSchema,
     gameController.createRoomVsComputer
 );
