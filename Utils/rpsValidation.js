@@ -1,20 +1,20 @@
 const whoIsWin = (x, y) => {
     if (
-        (x === "batu" && y === "batu") ||
-        (x === "gunting" && y === "gunting") ||
-        (x === "kertas" && y === "kertas")
+        (x === "rock" && y === "rock") ||
+        (x === "scissors" && y === "scissors") ||
+        (x === "paper" && y === "paper")
     ) {
         return ["draw", "draw"];
     } else if (
-        (x === "batu" && y === "gunting") ||
-        (x === "gunting" && y === "kertas") ||
-        (x === "kertas" && y === "batu")
+        (x === "rock" && y === "scissors") ||
+        (x === "scissors" && y === "paper") ||
+        (x === "paper" && y === "rock")
     ) {
         return ["win", "lose"];
     } else if (
-        (x === "batu" && y === "kertas") ||
-        (x === "gunting" && y === "batu") ||
-        (x === "kertas" && y === "gunting")
+        (x === "rock" && y === "paper") ||
+        (x === "scissors" && y === "rock") ||
+        (x === "paper" && y === "scissors")
     ) {
         return ["lose", "win"];
     } else {
@@ -24,7 +24,7 @@ const whoIsWin = (x, y) => {
 };
 
 const getComputerChoice = () => {
-    const choices = ["batu", "gunting", "kertas"];
+    const choices = ["rock", "scissors", "paper"];
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
 };
