@@ -150,13 +150,11 @@ class gameModel {
                 ],
                 where: {
                     [Op.or]: [{idPlayer1: id}, {idPlayer2: id}],
-                    [Op.and]: [
-                        {hasilPlayer1: {[Op.ne]: null}},
-                        {hasilPlayer2: {[Op.ne]: null}},
-                    ],
+                    // [Op.and]: [{statusRoom: "Completed"}],
                 },
                 raw: true,
             });
+            console.log(roomList.map());
 
             return roomList.map(room => ({
                 idPlayer:
@@ -179,29 +177,39 @@ class gameModel {
     // Function to get random choice for computer
 
     // Create Room vs Computer
-    createGameRoomVsComputer = async (
-        roomName,
-        choicePlayer1,
-        choicePlayer2,
-        player1,
-        hasilPlayer1,
-        hasilPlayer2
-    ) => {
+    getRoomDetail = async id => {
         try {
-            const gameRoom = await db.gameRooms.create({
-                roomName,
-                choicePlayer1,
-                idPlayer1: player1,
-                choicePlayer2,
-                idPlayer2: 2, // Mengubah ID player 2 menjadi nilai 99 (integer)
-                hasilPlayer1,
-                hasilPlayer2,
-                statusRoom: "Completed", // Mengubah status room menjadi "Completed"
+            const roomList = await db.gameRooms.findAll({
+                attributes: [
+                    "roomName",
+                    "updatedAt",
+                    "idPlayer1",
+                    "idPlayer2",
+                    "hasilPlayer1",
+                    "hasilPlayer2",
+                ],
+                where: {
+                    [Op.or]: [{idPlayer1: id}, {idPlayer2: id}],
+                    [Op.and]: [{statusRoom: "Completed"}],
+                },
+                raw: true,
             });
-            return gameRoom;
+            console.log(roomList);
+
+            // Gunakan argumen pada map() untuk mengubah bentuk objek
+            return roomList.map(room => ({
+                idPlayer:
+                    room.idPlayer1 === id ? room.idPlayer1 : room.idPlayer2,
+                hasilPlayer:
+                    room.idPlayer1 === id
+                        ? room.hasilPlayer1
+                        : room.hasilPlayer2,
+                roomName: room.roomName,
+                updatedAt: room.updatedAt,
+            }));
         } catch (error) {
             throw new Error(
-                "Failed to create game room with computer : " + error.message
+                "Failed to retrieve room details: " + error.message
             );
         }
     };

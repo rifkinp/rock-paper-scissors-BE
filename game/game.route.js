@@ -3,7 +3,6 @@ const gameRoute = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const gameValidation = require("../Utils/game.validation");
 const {validationjsonSchema} = require("../middleware/jsonSchemaMiddleware");
-const authProtection = require("../middleware/authProtection");
 const gameController = require("./game.controller");
 
 // NEW API HERE

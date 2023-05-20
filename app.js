@@ -3,7 +3,9 @@ const app = express();
 const port = 8000;
 const usersRoute = require("./users/user.route");
 const gameRoute = require("./game/game.route");
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
