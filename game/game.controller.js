@@ -1,18 +1,16 @@
 const gameModel = require("./game.model");
-const jwtApp = require("jsonwebtoken");
-const {matchedData} = require("express-validator");
-const rpsValidation = require("../Utils/rpsValidation");
+const {whoIsWin, getComputerChoice} = require("../Utils/rpsValidation");
 
 class gameController {
     //record game
     recordGame = async (req, res) => {
         const {idUser} = req.params;
         const {resultGame, gameName} = req.body;
-        const user = await gameModel.getSingleUser(idUser);
         try {
+            const user = await gameModel.getSingleUser(idUser);
             if (!user) {
                 res.statusCode = 400;
-                return res.json({message: "User tidak ditemukan"});
+                return res.json({message: "User not found"});
             }
             const userGame = await gameModel.updateGameResult(
                 resultGame,
@@ -22,21 +20,25 @@ class gameController {
             return res.json(userGame);
         } catch (error) {
             console.log(error);
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
     singleGameHistory = async (req, res) => {
         const {idUser} = req.params;
-        const user = await gameModel.getSingleUser(idUser);
         try {
+            const user = await gameModel.getSingleUser(idUser);
+
             if (!user) {
                 res.statusCode = 400;
                 return res.json({message: "User tidak ditemukan"});
             }
+
             const userGame = await gameModel.dataGameHistory(idUser);
             return res.json(userGame);
         } catch (error) {
             console.log(error);
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
@@ -44,7 +46,7 @@ class gameController {
     recordGameRoom = async (req, res) => {
         const {roomName, choicePlayer1} = req.body;
         const player1 = req.user.id;
-        // console.log(player1);
+
         try {
             const roomNameCheck = await gameModel.checkRoomName(roomName);
 
@@ -59,10 +61,10 @@ class gameController {
                 player1
             );
             // console.log(player1);
-            return res.send({message: "berhasil"});
+            return res.send({message: "Success Record Room"});
         } catch (error) {
             console.log(error);
-            return res.json({message: "ada error"});
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
@@ -74,7 +76,7 @@ class gameController {
             return res.json(allRoom);
         } catch (error) {
             console.log(error);
-            return res.json({message: "ada error di controller"});
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
@@ -87,11 +89,11 @@ class gameController {
             const singleRoom = await gameModel.singleRoomDetail(idRoom);
 
             if (!singleRoom) {
-                return res.send("Room tidak ditemukan");
+                return res.status(404).send("Room is not found");
             }
             return res.json(singleRoom);
         } catch (error) {
-            return console.log(error);
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
@@ -106,11 +108,11 @@ class gameController {
             const singleRoom = await gameModel.singleRoomDetail(idRoom);
 
             if (singleRoom.idPlayer1 === idPlayer2) {
-                return res.send("Terduplikat");
+                return res.status(400).send("Creator can't fill second choice");
             }
 
             if (singleRoom.statusRoom === "Completed") {
-                return res.send("Room sudah selesai");
+                return res.status(400).send("Room is completed");
             }
 
             //Input data player 2
@@ -140,18 +142,57 @@ class gameController {
             );
             // console.log(recordHistory);
 
-            return res.json({message: "Record History Berhasil"});
+            return res.json({message: "Record History Success"});
         } catch (error) {
             console.log(error);
-            return res.send("ada error");
+            return res.statusCode(500).json({message: "Something Error"});
         }
     };
 
     getSingleHistory = async (req, res) => {
-        const id = req.user.id;
-        const singleHistory = await gameModel.getRoomDetail(id);
-        return res.json(singleHistory);
+        try {
+            const id = req.user.id;
+            const singleHistory = await gameModel.getRoomDetail(id);
+            return res.json(singleHistory);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({message: "Something Error"});
+        }
+    };
+
+    // Controller Player vs Computer
+    createRoomVsComputer = async (req, res) => {
+        const {choicePlayer1} = req.body;
+        const player1 = req.user.id;
+
+        try {
+            const roomName = "VS COM"; // Set room name as 'VS COM'
+            const choicePlayer2 = getComputerChoice(); // Get computer's choice
+            const [hasilPlayer1, hasilPlayer2] = whoIsWin(
+                choicePlayer1,
+                choicePlayer2
+            ); // Calculate results
+
+            console.log([hasilPlayer1, hasilPlayer2]);
+
+            const createRoom = await gameModel.createGameRoomVsComputer(
+                roomName,
+                choicePlayer1,
+                choicePlayer2,
+                player1,
+                hasilPlayer1,
+                hasilPlayer2
+            );
+
+            return res.json({
+                message: "Room created successfully",
+                hasilPlayer1: hasilPlayer1,
+                hasilPlayer2: hasilPlayer2,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({message: "Error creating room"});
+        }
     };
 }
-
 module.exports = new gameController();

@@ -44,6 +44,14 @@ gameRoute.put("/room/:idRoom", authMiddleware, gameController.updateSingleGame);
 
 // 5. API get single History per user
 gameRoute.get("/history/", authMiddleware, gameController.getSingleHistory);
-//
+
+// 6. API Player VS Computer
+gameRoute.post(
+    "/room-vs-computer",
+    authMiddleware,
+    userValidation.recordGameRoom,
+    jsonSchemaMiddleware.validationjsonSchema,
+    gameController.createRoomVsComputer
+);
 
 module.exports = gameRoute;
