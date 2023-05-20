@@ -28,7 +28,7 @@ const userLoginValidation = [
         .notEmpty()
         .withMessage("Please enter the password")
         .isLength({min: 8, max: 15})
-        .withMessage("Password Min 6 Max 15 characters"),
+        .withMessage("Password Min 8 Max 15 characters"),
 ];
 
 const updateBioValidation = [

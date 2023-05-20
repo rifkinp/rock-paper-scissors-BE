@@ -18,10 +18,10 @@ gameRoute.post(
 
 // 2. GET all room *MASIH ERROR ??Ada dua cara, bisa ambil dari token dan masukkan langsung usernamenya
 // atau bikin relationship ke gameroom dan usernamenya
-gameRoute.get("/room", gameController.getAllRooms);
+gameRoute.get("/room", authMiddleware, gameController.getAllRooms);
 
 // 3. API get single room detail
-gameRoute.get("/room/:idRoom", gameController.getSingleRoom);
+gameRoute.get("/room/:idRoom", authMiddleware, gameController.getSingleRoom);
 
 // 4. API PUT single room
 gameRoute.put("/room/:idRoom", authMiddleware, gameController.updateSingleGame);

@@ -15,14 +15,15 @@ userRoute.post(
     userValidation.userRegistrationValidation,
     jsonSchemaMiddleware.validationjsonSchema,
     userController.userRegister
-),
-    //Api untuk Login
-    userRoute.post(
-        "/login",
-        userValidation.userLoginValidation,
-        jsonSchemaMiddleware.validationjsonSchema,
-        userController.userLogin
-    );
+);
+
+//Api untuk Login
+userRoute.post(
+    "/login",
+    userValidation.userLoginValidation,
+    jsonSchemaMiddleware.validationjsonSchema,
+    userController.userLogin
+);
 
 //API untuk get single ID + Bio
 userRoute.get(
