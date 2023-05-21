@@ -1,6 +1,6 @@
 const md5 = require("md5");
 const db = require("../db/models");
-const {Op, Sequelize} = require("sequelize");
+const {Op} = require("sequelize");
 class gameModel {
     // Check name Room
     checkRoomName = async roomName => {
@@ -51,6 +51,33 @@ class gameModel {
 
     // Get Single Room Detail
     singleRoomDetail = async idRoom => {
+        try {
+            const roomSingleList = await db.gameRooms.findOne({
+                where: {id: idRoom},
+                include: [
+                    {
+                        model: db.User,
+                        as: "player1",
+                        attributes: ["id", "username"],
+                    },
+                    {
+                        model: db.User,
+                        as: "player2",
+                        attributes: ["id", "username"],
+                    },
+                ],
+                attributes: {exclude: ["choicePlayer2", "choicePlayer1"]},
+
+                raw: true,
+            });
+            return roomSingleList;
+        } catch (error) {
+            throw new Error("Failed to get room detail : " + error.message);
+        }
+    };
+
+    // Get Single Room Detail
+    roomDetailForUpdate = async idRoom => {
         try {
             const roomSingleList = await db.gameRooms.findOne({
                 where: {id: idRoom},

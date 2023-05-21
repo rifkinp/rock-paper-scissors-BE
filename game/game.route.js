@@ -18,7 +18,7 @@ gameRoute.post(
 // 2. GET all room HARUSNYA SUPER ADMIN NEH
 gameRoute.get("/room", authMiddleware, gameController.getAllRooms);
 
-// 3. API get single room detail
+// 3. API get single room detail HARUSNYA SUPER ADMIN NEH
 gameRoute.get("/room/:idRoom", authMiddleware, gameController.getSingleRoom);
 
 // 4. API PUT single room

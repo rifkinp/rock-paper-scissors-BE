@@ -67,7 +67,7 @@ class gameController {
 
         try {
             //Get Room Detail
-            const singleRoom = await gameModel.singleRoomDetail(idRoom);
+            const singleRoom = await gameModel.roomDetailForUpdate(idRoom);
 
             //validation creator player 1
             if (singleRoom.idPlayer1 === idPlayer2) {
@@ -101,7 +101,13 @@ class gameController {
             );
             // console.log(recordHistory);
 
-            return res.json({message: "Record History Success"});
+            return res.json({
+                message: "Record History Success",
+                "Player 1 Choice": x1,
+                "Player 2 Choice": y1,
+                "Player 1 ": x1Result,
+                "Player 2 ": y1Result,
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).json({message: "Something Error"});
@@ -152,6 +158,8 @@ class gameController {
 
             return res.json({
                 message: "Room created successfully",
+                Player: choicePlayer1,
+                Computer: choicePlayer2,
                 hasilPlayer1: hasilPlayer1,
                 hasilPlayer2: hasilPlayer2,
             });

@@ -6,7 +6,7 @@ class userModel {
     // cek all user
     getAllUser = async () => {
         const userList = await db.User.findAll({
-            include: [db.UserBio, db.GameHistory],
+            include: [db.UserBio],
             attributes: {exclude: ["password"]},
         });
         return userList;
