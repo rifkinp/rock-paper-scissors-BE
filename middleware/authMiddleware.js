@@ -1,4 +1,5 @@
 const jwtApp = require("jsonwebtoken");
+require("dotenv").config();
 
 const authMiddleware = async (req, res, next) => {
     // ambil key authorization dalam header
@@ -15,7 +16,7 @@ const authMiddleware = async (req, res, next) => {
         // cek apakah token valid kalau tidak unathorized
         const token = await jwtApp.verify(
             splitedToken,
-            "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C"
+            process.env.SECRET_KEYS
         );
         req.user = token;
         next();

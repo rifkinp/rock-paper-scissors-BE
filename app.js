@@ -6,6 +6,7 @@ const gameRoute = require("./game/game.route");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./gameRpsSwagger.json");
+require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());

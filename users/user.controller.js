@@ -1,6 +1,7 @@
 const userModel = require("./user.model");
 const jwtApp = require("jsonwebtoken");
 const {matchedData} = require("express-validator");
+require("dotenv").config();
 
 class userController {
     dataUser = async (req, res) => {
@@ -44,7 +45,7 @@ class userController {
                 // Generate JWT with token
                 const token = jwtApp.sign(
                     {...hasilLogin, role: "player"},
-                    "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C",
+                    process.env.SECRET_KEYS,
                     {expiresIn: "1d"}
                 );
                 return res.json({accessToken: token});
