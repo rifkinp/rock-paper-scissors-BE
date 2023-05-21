@@ -2,7 +2,7 @@ const md5 = require("md5");
 const db = require("../db/models");
 const {Op, Sequelize} = require("sequelize");
 class gameModel {
-    // cek nameRoom
+    // Check name Room
     checkRoomName = async roomName => {
         try {
             return await db.gameRooms.findOne({where: {roomName: roomName}});
@@ -26,7 +26,7 @@ class gameModel {
         }
     };
 
-    //cari semua room
+    // Find all rooms
     getAllRoom = async () => {
         try {
             const roomList = await db.gameRooms.findAll({
@@ -93,7 +93,7 @@ class gameModel {
         }
     };
 
-    // dapatkan info room
+    // find single room detail
     getChoicePlayer1 = async idRoom => {
         try {
             const roomSingleList = await db.gameRooms.findOne({
@@ -117,6 +117,7 @@ class gameModel {
         }
     };
 
+    // Update history Room and result from player 2 choice
     updateHistoryRoom = async (x1Result, y1Result, idRoom) => {
         const idRoomInt = parseInt(idRoom);
         console.log(idRoomInt);
@@ -137,6 +138,7 @@ class gameModel {
         }
     };
 
+    //get single user room detail with its history
     getRoomDetail = async id => {
         try {
             const roomList = await db.gameRooms.findAll({
@@ -154,9 +156,11 @@ class gameModel {
                 },
                 raw: true,
             });
-            console.log(roomList.map());
 
+            // uses map() to change the shape of the object
             return roomList.map(room => ({
+                // filter choice with tenary operator
+
                 idPlayer:
                     room.idPlayer1 === id ? room.idPlayer1 : room.idPlayer2,
                 hasilPlayer:
@@ -169,47 +173,6 @@ class gameModel {
         } catch (error) {
             throw new Error(
                 "Failed to retrieve room details : " + error.message
-            );
-        }
-    };
-
-    // PLayer vs Computer
-    // Function to get random choice for computer
-
-    // Create Room vs Computer
-    getRoomDetail = async id => {
-        try {
-            const roomList = await db.gameRooms.findAll({
-                attributes: [
-                    "roomName",
-                    "updatedAt",
-                    "idPlayer1",
-                    "idPlayer2",
-                    "hasilPlayer1",
-                    "hasilPlayer2",
-                ],
-                where: {
-                    [Op.or]: [{idPlayer1: id}, {idPlayer2: id}],
-                    [Op.and]: [{statusRoom: "Completed"}],
-                },
-                raw: true,
-            });
-            console.log(roomList);
-
-            // Gunakan argumen pada map() untuk mengubah bentuk objek
-            return roomList.map(room => ({
-                idPlayer:
-                    room.idPlayer1 === id ? room.idPlayer1 : room.idPlayer2,
-                hasilPlayer:
-                    room.idPlayer1 === id
-                        ? room.hasilPlayer1
-                        : room.hasilPlayer2,
-                roomName: room.roomName,
-                updatedAt: room.updatedAt,
-            }));
-        } catch (error) {
-            throw new Error(
-                "Failed to retrieve room details: " + error.message
             );
         }
     };
@@ -229,10 +192,10 @@ class gameModel {
                 choicePlayer1,
                 idPlayer1: player1,
                 choicePlayer2,
-                idPlayer2: 2, // Mengubah ID player 2 menjadi nilai 99 (integer)
+                idPlayer2: 2, // change IdPlayer2 to nilai 2 (integer ID Computer)
                 hasilPlayer1,
                 hasilPlayer2,
-                statusRoom: "Completed", // Mengubah status room menjadi "Completed"
+                statusRoom: "Completed", // change status room to "Completed"
             });
             return gameRoom;
         } catch (error) {

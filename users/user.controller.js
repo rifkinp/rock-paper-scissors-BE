@@ -17,21 +17,21 @@ class userController {
 
     userRegister = async (req, res) => {
         try {
-            const requestData = matchedData(req); // data yang masuk
-            const hasilData = await userModel.isUserAvail(requestData); //cek data di database
+            const requestData = matchedData(req); // Test record data in express-validator
+            const hasilData = await userModel.isUserAvail(requestData); // check data in database
             if (hasilData) {
-                return res.send({message: "User / Email sudah terdaftar"});
+                return res.send({message: "User / Email not available"});
             }
-            //record data kedalam userList
+            // Record data to database
             userModel.recordNewData(requestData);
-            return res.json({message: "registrasi berhasil"});
+            return res.json({message: "Registration success"});
         } catch (error) {
             console.log(error);
             return res.status(500).json({message: "Error registering user"});
         }
     };
 
-    // Cek Login
+    // login check
     userLogin = async (req, res) => {
         try {
             const {userOrEmail, password} = req.body;
@@ -41,7 +41,7 @@ class userController {
             );
 
             if (hasilLogin) {
-                //generate JWT
+                // Generate JWT with token
                 const token = jwtApp.sign(
                     {...hasilLogin, role: "player"},
                     "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C",
@@ -49,7 +49,7 @@ class userController {
                 );
                 return res.json({accessToken: token});
             } else {
-                return res.json({message: "Credential tidak ditemukan"});
+                return res.json({message: "Credential not found"});
             }
         } catch (error) {
             console.log(error);
@@ -57,7 +57,7 @@ class userController {
         }
     };
 
-    //Cek Detail
+    // check user detail
     userDetail = async (req, res) => {
         try {
             const {idUser} = req.params;
@@ -68,7 +68,7 @@ class userController {
             } else {
                 return res
                     .status(400)
-                    .json({message: `User ${idUser} tidak ditemukan`});
+                    .json({message: `User ${idUser} not found`});
             }
         } catch (error) {
             console.log(error);
@@ -78,7 +78,7 @@ class userController {
         }
     };
 
-    //Update user profile
+    // Update User Profile
     userUpdate = async (req, res) => {
         try {
             const {idUser} = req.params;

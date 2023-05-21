@@ -24,7 +24,7 @@ class userModel {
         }
     };
 
-    //Cek detail biodata
+    // check detail user bio
     getProfileUser = async idUser => {
         try {
             return await db.User.findOne({
@@ -57,7 +57,7 @@ class userModel {
             throw new Error("Failed to update user: " + error.message);
         }
     };
-    // cek user sudah terdaftar atau tidak
+    // cek is registered or not
     isUserAvail = async queryUser => {
         try {
             const availUser = await db.User.findOne({
@@ -77,7 +77,7 @@ class userModel {
         }
     };
 
-    // push registrasi
+    // record registration
     recordNewData = queryUser => {
         db.User.create({
             username: queryUser.username,

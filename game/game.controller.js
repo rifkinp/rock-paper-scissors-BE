@@ -20,15 +20,18 @@ class gameController {
                 choicePlayer1,
                 player1
             );
-            // console.log(player1);
-            return res.send({message: "Success Record Room"});
+            console.log(createRoom);
+            return res.send({
+                message:
+                    "Success Record Room with ID : " + createRoom.dataValues.id,
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).json({message: "Something Error"});
         }
     };
 
-    //Get All Room Detail **STILL ERROR ???
+    //Get All Room Detail
     getAllRooms = async (req, res) => {
         try {
             const allRoom = await gameModel.getAllRoom();
@@ -66,10 +69,12 @@ class gameController {
             //Get Room Detail
             const singleRoom = await gameModel.singleRoomDetail(idRoom);
 
+            //validation creator player 1
             if (singleRoom.idPlayer1 === idPlayer2) {
                 return res.status(400).send("Creator can't fill second choice");
             }
 
+            //validation room already completed
             if (singleRoom.statusRoom === "Completed") {
                 return res.status(400).send("Room is completed");
             }
@@ -81,14 +86,14 @@ class gameController {
                 idRoom
             );
 
-            //Bikin variabel untuk update ke Logic
+            //create variable for update the logic
             const x1 = singleRoom.choicePlayer1;
             const y1 = choicePlayer2;
 
-            //masukkan variabel ke Function Logic cari pemenang
+            //input varriable to find the winner
             const [x1Result, y1Result] = whoIsWin(x1, y1);
 
-            //Input hasil ke database
+            //Input result to database
             const recordHistory = await gameModel.updateHistoryRoom(
                 x1Result,
                 y1Result,
@@ -107,11 +112,12 @@ class gameController {
         try {
             const id = req.user.id;
 
-            // Lakukan validasi input
+            // Do input validation *Testing
             if (!Number.isInteger(id) || id <= 0) {
                 return res.status(400).json({message: "Invalid user ID"});
             }
 
+            // find singe room detail by ID
             const singleHistory = await gameModel.getRoomDetail(id);
             return res.json(singleHistory);
         } catch (error) {
