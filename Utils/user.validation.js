@@ -27,9 +27,7 @@ const userRegistrationValidation = [
         .isLength({min: 5, max: 50})
         .withMessage("Username/Email Min 6 Max 15 characters")
         .matches(/^[a-zA-Z0-9@._]+$/)
-        .withMessage(
-            "User / Email can only contain letters, numbers, @, ., and _"
-        ),
+        .withMessage("Username can only contain letters, numbers, @, ., and _"),
 ];
 
 const userLoginValidation = [
@@ -40,8 +38,10 @@ const userLoginValidation = [
         .withMessage("Must be character")
         .isLength({min: 5, max: 50})
         .withMessage("Username/Email Min 6 Max 15 characters")
-        .matches(/^[a-zA-Z0-9\s]+$/)
-        .withMessage("Room Name can only contain letters, numbers, and spaces"),
+        .matches(/^[a-zA-Z0-9@._]+$/)
+        .withMessage(
+            "User/Email can only contain letters, numbers, @, ., and _"
+        ),
 
     // body("userOrEmail")
     //     .notEmpty()
@@ -65,11 +65,7 @@ const userLoginValidation = [
         .notEmpty()
         .withMessage("Please enter the password")
         .isLength({min: 8, max: 15})
-        .withMessage("Password Min 6 Max 15 characters")
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\s]+$/)
-        .withMessage(
-            "Password can contain letters, numbers, and Special Character"
-        ),
+        .withMessage("Password Min 6 Max 15 characters"),
 ];
 
 const updateBioValidation = [

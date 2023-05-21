@@ -213,6 +213,34 @@ class gameModel {
             );
         }
     };
+
+    // Create Room vs Computer
+    createGameRoomVsComputer = async (
+        roomName,
+        choicePlayer1,
+        choicePlayer2,
+        player1,
+        hasilPlayer1,
+        hasilPlayer2
+    ) => {
+        try {
+            const gameRoom = await db.gameRooms.create({
+                roomName,
+                choicePlayer1,
+                idPlayer1: player1,
+                choicePlayer2,
+                idPlayer2: 2, // Mengubah ID player 2 menjadi nilai 99 (integer)
+                hasilPlayer1,
+                hasilPlayer2,
+                statusRoom: "Completed", // Mengubah status room menjadi "Completed"
+            });
+            return gameRoom;
+        } catch (error) {
+            throw new Error(
+                "Failed to create game room with computer : " + error.message
+            );
+        }
+    };
 }
 
 module.exports = new gameModel();

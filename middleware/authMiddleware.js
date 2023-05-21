@@ -10,9 +10,11 @@ const authMiddleware = async (req, res, next) => {
     }
 
     try {
+        const splitedToken = authorization.split(" ")[1];
+        console.log(splitedToken);
         // cek apakah token valid kalau tidak unathorized
         const token = await jwtApp.verify(
-            authorization,
+            splitedToken,
             "H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C"
         );
         req.user = token;
