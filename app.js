@@ -4,10 +4,14 @@ const port = 8000;
 const usersRoute = require("./users/user.route");
 const gameRoute = require("./game/game.route");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./gameRpsSwagger.json");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
     return res.sendFile("index.html");
