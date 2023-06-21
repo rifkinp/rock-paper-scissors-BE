@@ -2,8 +2,8 @@
 const express = require("express");
 const app = express();
 const port = 4000;
-const usersRoute = require("./users/user.route");
-const gameRoute = require("./game/game.route");
+// const usersRoute = require("./users/user.route");
+// const gameRoute = require("./game/game.route");
 
 app.listen(port, () => {
   console.log(`API listening on port ${port} `);
