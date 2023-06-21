@@ -17,7 +17,6 @@
 // });
 
 // // Export the Express API
-// module.exports = app;
 
 const express = require("express");
 const app = express();
@@ -50,3 +49,5 @@ app.use("/users", usersRoute);
 app.listen(port, () => {
   console.log("App is running on port " + port);
 });
+
+module.exports = app;
