@@ -1,7 +1,7 @@
 // index.js
 const express = require("express");
 const app = express();
-const port = 8000;
+const port = 4000;
 const usersRoute = require("./users/user.route");
 const gameRoute = require("./game/game.route");
 
