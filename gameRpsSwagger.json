@@ -1,0 +1,353 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "API Game RPS",
+        "description": "API for accessing Rock-Paper-Scissors game",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": ["users"],
+                "summary": "API for registration",
+                "description": "Registration to access the entire game application",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "halu@galu.com"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "haluhalu"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "haloHa10"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registration Successful"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": ["users"],
+                "summary": "API for login",
+                "description": "Login to obtain a token for access",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userOrEmail": {
+                                        "type": "string",
+                                        "example": "tes@tigabelas.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pertamasaja"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login Successful"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["users"],
+                "summary": "API to get all users",
+                "description": "Retrieve all registered users",
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved all users"
+                    }
+                }
+            }
+        },
+        "/users/detail/{idparam}": {
+            "get": {
+                "tags": ["users"],
+                "summary": "API to get single user",
+                "description": "Retrieve details of the logged-in user",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idparam",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID parameter to retrieve user details, example : 13"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user details"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["users"],
+                "summary": "API to update user's profile",
+                "description": "Update the user's profile information",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idparam",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID parameter to update user's profile, example : 13"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "fullName": {
+                                        "type": "string",
+                                        "example": "aasdssssssssssssssssssss"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "32423/. Ang32423ka"
+                                    },
+                                    "phoneNumber": {
+                                        "type": "string",
+                                        "example": "+62852204224"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated user's profile"
+                    }
+                }
+            }
+        },
+        "/games/room/": {
+            "post": {
+                "tags": ["game"],
+                "summary": "API to create a room",
+                "description": "Create a room and make a choice, dont forget check ID room in responses",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "roomName": {
+                                        "type": "string",
+                                        "example": "RoomtigHbelas"
+                                    },
+                                    "choicePlayer1": {
+                                        "type": "string",
+                                        "example": "paper"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully created a room"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["game"],
+                "summary": "API to view all rooms",
+                "description": "View all available rooms",
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved all rooms"
+                    }
+                }
+            }
+        },
+        "/games/room/{idParam}": {
+            "get": {
+                "tags": ["game"],
+                "summary": "API to view details of a room",
+                "description": "View details of a specific room",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idParam",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID parameter to view room details"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved room details"
+                    }
+                }
+            }
+        },
+        "/games/history/": {
+            "get": {
+                "tags": ["game"],
+                "summary": "API to view player's history",
+                "description": "View the history of the logged-in player",
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully viewed user's history"
+                    }
+                }
+            }
+        },
+        "/games/room/{idRoom}": {
+            "put": {
+                "tags": ["game"],
+                "summary": "API for the second player to compete",
+                "description": "Choose a room, make a selection, record it, and see the result for the second player",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idRoom",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID parameter to choose a room, check ID in create Room"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "choicePlayer2": {
+                                        "type": "string",
+                                        "example": "rock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully inputted the second choice"
+                    }
+                }
+            }
+        },
+        "/games/room-vs-computer/": {
+            "post": {
+                "tags": ["game"],
+                "summary": "API to play against the computer",
+                "description": "Create a room, make a selection, record it, and see the result against the computer",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "choicePlayer1": {
+                                        "type": "string",
+                                        "example": "rock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerauth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully played against the computer"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerauth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
