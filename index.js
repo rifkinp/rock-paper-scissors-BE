@@ -1,11 +1,12 @@
 // index.js
 const express = require("express");
-
 const app = express();
-const PORT = 4000;
+const port = 8000;
+const usersRoute = require("./users/user.route");
+const gameRoute = require("./game/game.route");
 
-app.listen(PORT, () => {
-  console.log(`API listening on PORT ${PORT} `);
+app.listen(port, () => {
+  console.log(`API listening on port ${port} `);
 });
 
 app.get("/", (req, res) => {
@@ -16,13 +17,6 @@ app.get("/about", (req, res) => {
   res.send("This is my about route..... ");
 });
 
-// Export the Express API
-
-// const express = require("express");
-// const app = express();
-// const port = 8000;
-// const usersRoute = require("./users/user.route");
-// const gameRoute = require("./game/game.route");
 // const cors = require("cors");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDocument = require("./gameRpsSwagger.json");
