@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 const port = 4000;
-// const usersRoute = require("./users/user.route");
+const usersRoute = require("./users/user.route");
 // const gameRoute = require("./game/game.route");
 
 app.listen(port, () => {
@@ -38,7 +38,7 @@ app.get("/about", (req, res) => {
 
 // app.use("/games", gameRoute);
 
-// app.use("/users", usersRoute);
+app.use("/users", usersRoute);
 
 // app.listen(port, () => {
 //   console.log("App is running on port " + port);
