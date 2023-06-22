@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 const port = 4000;
-// const usersRoute = require("./users/user.route");
+const usersRoute = require("./users/user.route");
 // const gameRoute = require("./game/game.route");
 
 app.listen(port, () => {
@@ -20,11 +20,12 @@ app.get("/about", (req, res) => {
 // const cors = require("cors");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDocument = require("./gameRpsSwagger.json");
-// require("dotenv").config();
+require("dotenv").config();
 
 // app.use(cors());
-// app.use(express.json());
+app.use(express.json());
 // app.use(express.static("public"));
+app.use("/users", usersRoute);
 
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -37,8 +38,6 @@ app.get("/about", (req, res) => {
 // });
 
 // app.use("/games", gameRoute);
-
-// app.use("/users", usersRoute);
 
 // app.listen(port, () => {
 //   console.log("App is running on port " + port);
