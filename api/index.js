@@ -15,14 +15,10 @@ app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
 
-app.get("/about", (req, res) => {
-  res.send("This is my about route..... ");
-});
+// const swaggerUi = require("swagger-ui-express");
+// const swaggerDocument = require("./gameRpsSwagger.json");
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./gameRpsSwagger.json");
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/pong", (req, res) => {
   return res.json({message: "PINGGG POING"});
