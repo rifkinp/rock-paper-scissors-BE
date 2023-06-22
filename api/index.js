@@ -19,26 +19,17 @@ app.get("/about", (req, res) => {
   res.send("This is my about route..... ");
 });
 
-// app.use("/users", usersRoute);
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./gameRpsSwagger.json");
 
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerDocument = require("./gameRpsSwagger.json");
-
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// app.get("/", (req, res) => {
-//   return res.send("Hello World");
-// });
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/pong", (req, res) => {
   return res.json({message: "PINGGG POING"});
 });
 
 // app.use("/games", gameRoute);
-
-// app.listen(port, () => {
-//   console.log("App is running on port " + port);
-// });
+// app.use("/users", usersRoute);
 
 app.listen(port, () => {
   console.log(`API listening on port ${port} `);
