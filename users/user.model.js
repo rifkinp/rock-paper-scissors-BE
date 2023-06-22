@@ -5,7 +5,7 @@ const db = require("../db/models");
 class userModel {
   //   cek all user
   getAllUser = async () => {
-    const userList = await db.User.findAll({});
+    const userList = await db.User.findAll();
     return userList;
   };
 
