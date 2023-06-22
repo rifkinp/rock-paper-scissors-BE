@@ -2,12 +2,12 @@
 const express = require("express");
 const app = express();
 const port = 8000;
-const usersRoute = require("./users/user.route");
+// const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
-require("dotenv").config();
+// require("dotenv").config();
 // app.use(cors());
-app.use(express.json());
+// app.use(express.json());
 // app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -18,7 +18,7 @@ app.get("/about", (req, res) => {
   res.send("This is my about route..... ");
 });
 
-app.use("/users", usersRoute);
+// app.use("/users", usersRoute);
 
 // const cors = require("cors");
 // const swaggerUi = require("swagger-ui-express");
