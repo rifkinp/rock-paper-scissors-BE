@@ -2,12 +2,12 @@
 const express = require("express");
 const app = express();
 const port = 8000;
-const cors = require("cors");
+// const cors = require("cors");
 // const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
 require("dotenv").config();
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
