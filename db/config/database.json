@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "gamekid",
-    "password": "smd123",
-    "database": "gamekid",
-    "host": "127.0.0.1",
+    "username": "mgevrype",
+    "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
+    "database": "mgevrype",
+    "host": "satao.db.elephantsql.com",
     "dialect": "postgres"
   },
   "test": {
