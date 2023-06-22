@@ -1,5 +1,6 @@
 // index.js
 const express = require("express");
+const userRoutesss = require("../users/user.routesss");
 const app = express();
 const port = 8000;
 // const cors = require("cors");
@@ -23,6 +24,8 @@ app.get("/", (req, res) => {
 app.get("/pong", (req, res) => {
   return res.json({message: "PINGGG POING"});
 });
+
+app.get("/userssss", userRoutesss);
 
 // app.use("/games", gameRoute);
 // app.use("/users", usersRoute);
