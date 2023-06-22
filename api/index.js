@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = 8000;
 // const cors = require("cors");
-const usersRoutesss = require("../users/user.routesss");
+// const usersRoutesss = require("../users/user.routesss");
 // const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
@@ -26,7 +26,7 @@ app.get("/pong", (req, res) => {
   return res.json({message: "PINGGG POING"});
 });
 
-app.get("/userssss", userRoutesss);
+// app.get("/userssss", userRoutesss);
 
 // app.use("/games", gameRoute);
 // app.use("/users", usersRoute);
