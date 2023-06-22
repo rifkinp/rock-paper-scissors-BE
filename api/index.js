@@ -29,7 +29,7 @@ app.get("/pong", (req, res) => {
 // app.get("/userssss", userRoutesss);
 
 // app.use("/games", gameRoute);
-// app.use("/users", usersRoute);
+app.use("/users", usersRoute);
 
 app.listen(port, () => {
   console.log(`API listening on port ${port} `);
