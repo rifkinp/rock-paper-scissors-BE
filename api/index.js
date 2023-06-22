@@ -3,13 +3,13 @@ const express = require("express");
 // const userRoutesss = require("../users/user.routesss");
 const app = express();
 const port = 8000;
-const cors = require("cors");
-const usersRoutesss = require('../users/user.routesss')
+// const cors = require("cors");
+const usersRoutesss = require("../users/user.routesss");
 // const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
 require("dotenv").config();
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
