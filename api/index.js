@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const port = 8000;
 // const cors = require("cors");
-const usersRoute = require("../users/user.route");
+// const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
 require("dotenv").config();
@@ -19,7 +19,7 @@ app.get("/about", (req, res) => {
   res.send("This is my about route..... ");
 });
 
-app.use("/users", usersRoute);
+// app.use("/users", usersRoute);
 
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDocument = require("./gameRpsSwagger.json");
@@ -30,9 +30,9 @@ app.use("/users", usersRoute);
 //   return res.send("Hello World");
 // });
 
-// app.get("/pong", (req, res) => {
-//   return res.json({message: "PINGGG POING"});
-// });
+app.get("/pong", (req, res) => {
+  return res.json({message: "PINGGG POING"});
+});
 
 // app.use("/games", gameRoute);
 
