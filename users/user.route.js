@@ -13,7 +13,7 @@ userRoute.get("/login", userController.dataUser);
 //   return res.json({message: "LOGINGG POING"});
 // });
 
-// //API untuk register
+//API untuk register
 // userRoute.post(
 //     "/register",
 //     userValidation.userRegistrationValidation,

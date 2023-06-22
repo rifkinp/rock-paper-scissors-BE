@@ -5,10 +5,7 @@ const db = require("../db/models");
 class userModel {
   //   cek all user
   getAllUser = async () => {
-    const userList = await db.User.findAll({
-      include: [db.UserBio],
-      attributes: {exclude: ["password"]},
-    });
+    const userList = await db.User.findAll({});
     return userList;
   };
 
@@ -57,51 +54,46 @@ class userModel {
   //         throw new Error("Failed to update user: " + error.message);
   //     }
   // };
-  // // cek is registered or not
-  // isUserAvail = async queryUser => {
-  //     try {
-  //         const availUser = await db.User.findOne({
-  //             where: {
-  //                 [Op.or]: [
-  //                     {username: queryUser.username},
-  //                     {email: queryUser.email},
-  //                 ],
-  //             },
-  //         });
+  // cek is registered or not
+  isUserAvail = async queryUser => {
+    try {
+      const availUser = await db.User.findOne({
+        where: {
+          [Op.or]: [{username: queryUser.username}, {email: queryUser.email}],
+        },
+      });
 
-  //         return availUser ? true : false;
-  //     } catch (error) {
-  //         throw new Error(
-  //             "Failed to check user availability: " + error.message
-  //         );
-  //     }
-  // };
+      return availUser ? true : false;
+    } catch (error) {
+      throw new Error("Failed to check user availability: " + error.message);
+    }
+  };
 
-  // // record registration
-  // recordNewData = queryUser => {
-  //     db.User.create({
-  //         username: queryUser.username,
-  //         email: queryUser.email,
-  //         password: md5(queryUser.password),
-  //     });
-  // };
+  // record registration
+  recordNewData = queryUser => {
+    db.User.create({
+      username: queryUser.username,
+      email: queryUser.email,
+      password: md5(queryUser.password),
+    });
+  };
 
-  // // Cek Login
-  // checkUserLogin = async (userOrEmail, password) => {
-  //     try {
-  //         const dataUser = await db.User.findOne({
-  //             where: {
-  //                 [Op.or]: [{username: userOrEmail}, {email: userOrEmail}],
-  //                 password: md5(password),
-  //             },
-  //             attributes: {exclude: ["password"]},
-  //             raw: true,
-  //         });
-  //         return dataUser;
-  //     } catch (error) {
-  //         throw new Error("Failed to check user login: " + error.message);
-  //     }
-  // };
+  // Cek Login
+  checkUserLogin = async (userOrEmail, password) => {
+    try {
+      const dataUser = await db.User.findOne({
+        where: {
+          [Op.or]: [{username: userOrEmail}, {email: userOrEmail}],
+          password: md5(password),
+        },
+        attributes: {exclude: ["password"]},
+        raw: true,
+      });
+      return dataUser;
+    } catch (error) {
+      throw new Error("Failed to check user login: " + error.message);
+    }
+  };
 }
 
 module.exports = new userModel();
