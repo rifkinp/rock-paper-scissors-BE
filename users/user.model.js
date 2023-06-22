@@ -1,4 +1,3 @@
-const md5 = require("md5");
 const db = require("../db/models");
 // const {Op} = require("sequelize");
 
