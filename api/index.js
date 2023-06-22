@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 const port = 8000;
+const cors = require("cors");
 // const usersRoute = require("../users/user.route");
 // const gameRoute = require("./game/game.route");
 
@@ -20,7 +21,6 @@ app.get("/about", (req, res) => {
 
 // app.use("/users", usersRoute);
 
-// const cors = require("cors");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDocument = require("./gameRpsSwagger.json");
 
