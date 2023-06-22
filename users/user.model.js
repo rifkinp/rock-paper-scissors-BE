@@ -3,13 +3,13 @@ const db = require("../db/models");
 // const {Op} = require("sequelize");
 
 class userModel {
-  cek all user
+  //   cek all user
   getAllUser = async () => {
-      const userList = await db.User.findAll({
-          include: [db.UserBio],
-          attributes: {exclude: ["password"]},
-      });
-      return userList;
+    const userList = await db.User.findAll({
+      include: [db.UserBio],
+      attributes: {exclude: ["password"]},
+    });
+    return userList;
   };
 
   // // cek single user
