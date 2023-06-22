@@ -2,7 +2,7 @@
   "name": "chapter-5",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon index.js"
