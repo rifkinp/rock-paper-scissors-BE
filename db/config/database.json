@@ -4,13 +4,15 @@
     "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
     "database": "mgevrype",
     "host": "satao.db.elephantsql.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectModule": "postgres"
   },
   "production": {
     "username": "mgevrype",
     "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
     "database": "mgevrype",
     "host": "satao.db.elephantsql.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectModule": "postgres"
   }
 }
