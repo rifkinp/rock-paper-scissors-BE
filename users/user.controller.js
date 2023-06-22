@@ -6,22 +6,13 @@ require("dotenv").config();
 class userController {
   dataUser = async (req, res) => {
     try {
-      return res.json({message: "Success"});
+      const allUser = await userModel.getAllUser();
+      return res.json(allUser);
     } catch (error) {
       console.log(error);
       return res.status(500).json({message: "Error retrieving user data"});
     }
   };
-
-  //   dataUser = async (req, res) => {
-  //     try {
-  //       const allUser = await userModel.getAllUser();
-  //       return res.json(allUser);
-  //     } catch (error) {
-  //       console.log(error);
-  //       return res.status(500).json({message: "Error retrieving user data"});
-  //     }
-  //   };
 
   // userRegister = async (req, res) => {
   //     try {
