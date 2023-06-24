@@ -15,7 +15,7 @@ app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
-  return res.sendFile("index.html");
+  return res.json({message: "welcome to the jungle"});
 });
 
 app.get("/pong", (req, res) => {
