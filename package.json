@@ -2,11 +2,10 @@
   "name": "chapter-5",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon api/index.js",
-    "vercel-build": "echo hello"
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
