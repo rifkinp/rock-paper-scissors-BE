@@ -15,11 +15,11 @@ app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
-    return res.sendFile("index.html");
+  return res.sendFile("index.html");
 });
 
 app.get("/pong", (req, res) => {
-    return res.json({message: "PINGGG POING"});
+  return res.json({message: "PINGGG POING"});
 });
 
 app.use("/games", gameRoute);
@@ -27,5 +27,5 @@ app.use("/games", gameRoute);
 app.use("/users", usersRoute);
 
 app.listen(port, () => {
-    console.log("App is running on port " + port);
+  console.log("App is running on port " + port);
 });
