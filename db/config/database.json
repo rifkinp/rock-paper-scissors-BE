@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "mgevrype",
-    "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
-    "database": "mgevrype",
+    "username": "otxctojz",
+    "password": "cz7Y608PHs11Oe83_IVRzeAoUYVTO9NV",
+    "database": "otxctojz",
     "host": "satao.db.elephantsql.com",
     "dialect": "postgres"
   },
   "test": {
-    "username": "mgevrype",
-    "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
-    "database": "mgevrype",
+    "username": "otxctojz",
+    "password": "cz7Y608PHs11Oe83_IVRzeAoUYVTO9NV",
+    "database": "otxctojz",
     "host": "satao.db.elephantsql.com",
     "dialect": "postgres"
   },
   "production": {
-    "username": "mgevrype",
-    "password": "iwQIgStJXDhfa5odXF3S_xK0dsNffCI4",
-    "database": "mgevrype",
+    "username": "otxctojz",
+    "password": "cz7Y608PHs11Oe83_IVRzeAoUYVTO9NV",
+    "database": "otxctojz",
     "host": "satao.db.elephantsql.com",
     "dialect": "postgres"
   }
