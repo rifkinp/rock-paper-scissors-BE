@@ -1,26 +1,27 @@
-const jwtApp = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const authMiddleware = async (req, res, next) => {
-  // ambil key authorization dalam header
-  const {authorization} = req.headers;
+module.exports = async (req, res, next) => {
+  const { authorization } = req.headers;
 
   if (authorization === undefined) {
-    res.statusCode = 400;
-    return res.json({message: "Unauthorized"});
+    res.statusCode = 401;
+    return res.json({ message: 'Unauthorized' });
   }
 
   try {
-    const splitedToken = authorization.split(" ")[1];
-    // cek apakah token valid kalau tidak unathorized
-    const token = await jwtApp.verify(splitedToken, process.env.SECRET_KEYS);
-    req.user = token;
-    console.log(req.user);
+    const splitedToken = authorization.split(' ')[1];
+
+    const token = await jwt.verify(splitedToken, process.env.SECRET_KEY);
+    req.token = token;
+
     next();
   } catch (error) {
-    res.statusCode = 400;
-    return res.json({message: "invalid token"});
-  }
-};
+    console.log(error);
 
-module.exports = authMiddleware;
+    res.statusCode = 401;
+    return res.json({ message: 'Invalid Token' });
+  }
+
+  return null;
+};
