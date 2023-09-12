@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const userRouter = require('./user/user.route');
+const port = 3004;
 
 const app = express();
 
@@ -22,5 +23,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter);
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
 
 module.exports = app;
