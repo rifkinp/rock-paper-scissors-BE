@@ -7,7 +7,7 @@ const jsonSchemaMiddleware = require("../middleware/jsonSchemaMiddleware");
 const authProtection = require("../middleware/authProtection");
 
 //API Untuk get all User HARUSNYA SUPER ADMIN NEH
-userRoute.get("/login", authMiddleware, userController.dataUser);
+userRoute.get("/alluser", authMiddleware, userController.dataUser);
 
 //API untuk register
 userRoute.post(
