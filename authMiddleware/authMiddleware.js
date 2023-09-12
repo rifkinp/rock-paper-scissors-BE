@@ -17,6 +17,7 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
 
     res.statusCode = 401;
