@@ -1,46 +1,74 @@
-const express = require("express");
-const userRoute = express.Router();
-const userController = require("./user.controller");
-const authMiddleware = require("../middleware/authMiddleware");
-const userValidation = require("../Utils/user.validation");
-const jsonSchemaMiddleware = require("../middleware/jsonSchemaMiddleware");
-const authProtection = require("../middleware/authProtection");
+const express = require('express');
 
-//API Untuk get all User HARUSNYA SUPER ADMIN NEH
-userRoute.get("/alluser", authMiddleware, userController.dataUser);
+const userRouter = express.Router();
+const UserController = require('./user.controller');
+const authMiddleware = require('../authMiddleware/authMiddleware');
+// const protectionMiddleware = require('../authMiddleware/protectionMiddleware');`
+const userController = require('./user.controller');
+const registrationValidator = require('../utils/registrationValidator');
+const validationMiddleware = require('../authMiddleware/validationMiddleware');
 
-//API untuk register
-userRoute.post(
-    "/register",
-    userValidation.userRegistrationValidation,
-    jsonSchemaMiddleware.validationjsonSchema,
-    userController.userRegister
+userRouter.get('/alluser', authMiddleware, UserController.getAllUser);
+
+userRouter.post(
+  '/register',
+  registrationValidator.userRegisterValidation,
+  validationMiddleware,
+  UserController.registerNewUser,
 );
 
-//Api untuk Login
-userRoute.post(
-    "/login",
-    userValidation.userLoginValidation,
-    jsonSchemaMiddleware.validationjsonSchema,
-    userController.userLogin
+userRouter.post(
+  '/login',
+  registrationValidator.userLoginValidation,
+  validationMiddleware,
+  UserController.loginUser,
 );
 
-//API untuk get single ID + Bio
-userRoute.get(
-    "/detail/:idUser",
-    authMiddleware,
-    authProtection.validationCheck,
-    userController.userDetail
+userRouter.put('/uploadProfile', authMiddleware, userController.uploadProfile);
+
+userRouter.put(
+  '/updateBio',
+  authMiddleware,
+  registrationValidator.updateBioValidation,
+  validationMiddleware,
+  UserController.updateUserBio,
 );
 
-//API untuk update update biodata
-userRoute.put(
-    "/detail/:idUser",
-    authMiddleware,
-    authProtection.validationCheck,
-    userValidation.updateBioValidation,
-    jsonSchemaMiddleware.validationjsonSchema,
-    userController.userUpdate
+userRouter.get('/findUser', authMiddleware, UserController.findUser);
+
+// eslint-disable-next-line max-len
+// ------------------------------------------------- GAME -------------------------------------------------------------------
+
+userRouter.post(
+  '/createRoom',
+  authMiddleware,
+  registrationValidator.createRoom,
+  validationMiddleware,
+  userController.createRoom,
 );
 
-module.exports = userRoute;
+userRouter.put(
+  '/joinRoom/:id',
+  authMiddleware,
+  registrationValidator.joinRoom,
+  validationMiddleware,
+  userController.joinRoom,
+);
+
+userRouter.get('/allRoom', authMiddleware, userController.getAllRoom);
+
+userRouter.get('/singleRoom/:id', authMiddleware, userController.getSingleRoom);
+
+userRouter.get('/pvphistory', authMiddleware, userController.singleUserHistory);
+
+userRouter.post(
+  '/vsCom',
+  authMiddleware,
+  registrationValidator.vsCom,
+  validationMiddleware,
+  userController.playerVsCom,
+);
+
+userRouter.get('/generate-pdf', authMiddleware, userController.generatePdf);
+
+module.exports = userRouter;
